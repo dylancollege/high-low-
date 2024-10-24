@@ -1,7 +1,7 @@
 import random
 
 class Card:
-    # Represents a playing card with a suit and rank.
+
     suits = ["♠", "♥", "♦", "♣"]
     ranks = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"]
     
@@ -16,8 +16,12 @@ class Card:
     def calculate_value(self):
         if self.rank == "A":
             return 1
-        elif self.rank in ["J", "Q", "K"]:
-            return 10 + ["J", "Q", "K"].index(self.rank)  # J=11, Q=12, K=13
+        elif self.rank == "J":
+            return 11
+        elif self.rank == "Q":
+            return 12
+        elif self.rank == "K":
+            return 13
         else:
             return int(self.rank)
 
@@ -44,7 +48,7 @@ class Card:
 
 
 class Deck:
-    # Initializes a Deck object with a full deck of 52 cards.
+    
     def __init__(self):
         self.cards = [Card(suit, rank) for suit in Card.suits for rank in Card.ranks]
         self.shuffle()
@@ -64,20 +68,20 @@ class Deck:
     def game(self):
         points = 0
         initial_card = self.deal(1)[0]
-        print("Initial card:", initial_card)
 
         while True:
+            print(initial_card.card_str())
             print("Current points:", points)
-            choice = input("Higher or Lower? ").strip().lower()
+            choice = input("Will the next card be Higher or Lower? ").strip().lower()
             final_card = self.deal(1)[0]
-            print("Next card:", final_card)
+            print(final_card.card_str())
 
             if choice in ["higher", "h"]:
                 if final_card.value > initial_card.value:
                     points += 1
-                    print("Correct! Your score is:", points)
+                    print("You got it right! Your score goes up by 1.")
                 elif final_card.value == initial_card.value:
-                    print("Same card. No points.")
+                    print("Same card. You gain no points.")
                 else:
                     print("Wrong! Your score was:", points)
                     break
@@ -88,15 +92,15 @@ class Deck:
                 elif final_card.value == initial_card.value:
                     print("Same card. No points.")
                 else:
-                    print("Wrong! Your score was:", points)
+                    print("Wrong! Your score was:", points, "\nThanks for playing!")
                     break
             else:
                 print("Invalid input. Please type 'Higher' or 'Lower'.")
 
-            initial_card = final_card  # Move to the next card
-
-
-# To run the game, you can create a Deck and call the game method:
+            initial_card = final_card
+            
+            
 if __name__ == "__main__":
     deck = Deck()
     deck.game()
+
